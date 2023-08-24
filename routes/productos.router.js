@@ -1,29 +1,38 @@
 const express = require('express');
 const prodcutosServices = require('./../services/productos.service');
+const validatorHandler = require('./../middlewares/validator.handler');
+const { createProductoSchema, updateProductoSchema, getProductoSchema } = require('./../schemas/productos.schema');
 
 const router = express.Router();
 // instacio la clase
 const service = new prodcutosServices();
 
-router.get('/', (req, res,) => {
-    const productos = service.find();
-
-    res.json(productos);
-
-});
-
-router.get('/:id', (req, res) => {
+router.get('/', async (req, res,) => {
+    validatorHandler();
     try {
-        const { id } = req.params;
-        const producto = service.findOne(id);
-        res.json(producto);
+        const productos =  await service.find();
+        res.json(productos);
     } catch (error) {
-        res.status(404).json({
-            messague : "error"
-        })    }
+        //middleware de errores netx
+        next(error);
+    }
 
 
 });
+
+router.get('/:id',
+    validatorHandler(getProductoSchema, 'params'),
+    //validator que quiere hacer y que typo
+    async (req, res, next) => {
+        try {
+            const { id } = req.params;
+            const producto = await service.findOne(id);
+            res.json({producto});
+        } catch (error) {
+            next(error);
+        }
+    }
+);
 
 
 //dos parametros end point

@@ -1,6 +1,6 @@
 const express = require('express');
 const productosRouters = require('./productos.router');
-const userRouters = require('./user.router');
+// const userRouters = require('./user.router');
 
 function routerApi(app) {
     //ruta maestra de todas la apis path global
