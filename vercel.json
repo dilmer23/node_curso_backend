@@ -1,0 +1,8 @@
+{
+    "rewriter" : [
+        {
+            "source" : "/api/(.*)",
+            "dettination" : "/api"
+        }
+    ]
+}

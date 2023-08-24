@@ -5,7 +5,7 @@ const routeApi = require('./routes');
 const { logErrors, errorsHandler, boomErrosHandler } = require('./middlewares/error.middleware')
 //npm i --save-dev faker@5.5.3
 const app = express()
-const port =  process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 //middleware nativo de express
 app.use(express.json());
 //data faker de esa liberia
@@ -14,7 +14,7 @@ app.use(cors());
 //npm i cors
 
 //atender solictudes a origines 
-const whislist = ['http://localhost:3000', 'http://localhost:8080', 'htpps://myapp.co'];
+const whislist = ['http://localhost:3000', 'http://localhost:8080', 'htpps://myapp.co', 'https://web-production-0405.up.railway.app'];
 const options = {
     origin: (origin, callback) => {
         if (origin.include(origin)) {
@@ -26,12 +26,16 @@ const options = {
 }
 
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
+app.get('/api', (req, res) => {
+
+    res.send(' **************Esto es un api Realizada con NODE.JS *******************');
+
 });
 
-app.get('/nuevo', (req, res) => {
-    res.send('Hello World!')
+app.get('/api/nuevo', (req, res) => {
+
+    res.send(' **************Esto es un api Realizada con NODE.JS *******************');
+
 });
 
 
