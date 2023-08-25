@@ -1,6 +1,9 @@
 const { faker } = require("@faker-js/faker");
 //npm i @hapi/boom
 const boom = require('@hapi/boom');
+
+const getConnection = require('../libs/postgres');
+const { connect } = require("../routes/productos.router");
 class prodcutosServices {
 
     constructor() {
@@ -16,11 +19,9 @@ class prodcutosServices {
                 username: faker.internet.userName(),
                 email: faker.internet.email(),
                 password: faker.internet.password(),
-                imagen:faker.image.url(),
+                imagen: faker.image.url(),
             });
-
         }
-
     }
     async create(data) {
         const nuevoProducto = {
@@ -29,18 +30,18 @@ class prodcutosServices {
         }
         this.productos.push(nuevoProducto);
         return nuevoProducto;
-
     }
     async findOne(id) {
-        return this.productos.find((item => item.id === id));
-
+        const client = await getConnection();
+        const rta = await client.query('SELECT * FROM public.productosp');
+        return rta.rows;
+        // return this.productos.find((item => item.id === id));
     }
     async update(id, change) {
         const index = this.productos.findIndex(item => item.id === id);
         console.log(id);
         if (index === -1) {
-           throw boom.notFound('error product Not')
-            // return { messgue: 'error' }
+            throw boom.notFound('error product Not');
         }
         const productos = this.productos[index];
         this.productos[index] = {
@@ -48,21 +49,19 @@ class prodcutosServices {
             ...change
         };
         return this.productos[index];
-
     }
     async delete(id) {
         const index = this.productos.findIndex(item => item.id === id);
         if (index === -1) {
             throw boom.notFound('error product Not')
-            // return { messgue: 'error' }
         }
         this.productos.splice(index, 1);
         return { id };
-
     }
-
-     async find() {
-        return   this.productos;
+    async find() {
+        const client = await getConnection();
+        const rta = await client.query('SELECT * FROM public.productosp ORDER BY id ASC');
+        return rta.rows;
     }
 }
 module.exports = prodcutosServices;
