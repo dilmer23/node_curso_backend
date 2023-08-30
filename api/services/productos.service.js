@@ -1,11 +1,8 @@
 const { faker } = require("@faker-js/faker");
 //npm i @hapi/boom
 const boom = require('@hapi/boom');
-
-const getConnection = require('../libs/postgres');
-const { connect } = require("../routes/productos.router");
+const { models } = require('./../libs/sequelizeOrm');
 class prodcutosServices {
-
     constructor() {
         this.productos = [];
         this.nuevoProducto = [];
@@ -24,18 +21,15 @@ class prodcutosServices {
         }
     }
     async create(data) {
-        const nuevoProducto = {
-            id: faker.internet.domainName(),
-            ...data,
-        }
-        this.productos.push(nuevoProducto);
-        return nuevoProducto;
+        console.log(data);
+        const newProducto = await models.productos.create(data);
+        return newProducto;
     }
     async findOne(id) {
-        const client = await getConnection();
-        const rta = await client.query('SELECT * FROM public.productosp');
-        return rta.rows;
-        // return this.productos.find((item => item.id === id));
+        //findByPkbudscar por primary key
+        const rta = await models.productos.findByPk(id);
+        return rta;
+        
     }
     async update(id, change) {
         const index = this.productos.findIndex(item => item.id === id);
@@ -59,9 +53,8 @@ class prodcutosServices {
         return { id };
     }
     async find() {
-        const client = await getConnection();
-        const rta = await client.query('SELECT * FROM public.productosp ORDER BY id ASC');
-        return rta.rows;
+        const rta = await models.productos.findAll();
+        return rta;
     }
 }
 module.exports = prodcutosServices;

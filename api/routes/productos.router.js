@@ -61,7 +61,8 @@ router.get('/:id2/:idProducto', (req, res) => {
 router.post('/', async (req, res) => {
     const body = req.body;
     const rta = await service.create(body);
-    res.status(201).json(rta);
+    console.log(body);
+    res.status(200).json(rta);
 });
 //delete 
 router.delete('/:id', async (req, res) => {
