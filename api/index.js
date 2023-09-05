@@ -14,7 +14,7 @@ app.use(cors());
 //npm i cors
 
 //atender solictudes a origines 
-const whislist = ['http://localhost:3000', 'http://localhost:8080', 'htpps://myapp.co', 'https://web-production-0405.up.railway.app'];
+const whislist = ['http://localhost:3000', 'http://localhost:8080', 'https://web-production-0405.up.railway.app'];
 const options = {
     origin: (origin, callback) => {
         if (origin.include(origin)) {
@@ -25,7 +25,7 @@ const options = {
     }
 }
 
-
+// app.use(cors(options));
 app.get('/api', (req, res) => {
 
     res.send(' **************Esto es un api Realizada con NODE.JS *******************');
@@ -45,8 +45,6 @@ routeApi(app);
 app.use(logErrors);
 app.use(boomErrosHandler);
 app.use(errorsHandler);
-
-
 
 
 app.listen(port, () => {

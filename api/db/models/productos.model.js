@@ -1,5 +1,5 @@
 const { Model, DatatYPE, Sequelize, DataTypes } = require('sequelize');
-const PRODUCTO_TABLE = 'productosp';
+const PRODUCTO_TABLE = 'productos';
 
 
 //define la estructurta de la base de datos
@@ -30,12 +30,12 @@ const ProdutosSchema = {
         autoIncrement: false,
         type: DataTypes.STRING
     },
-    // createdAt: {
-    //     allowNull: false,
-    //     type: DataTypes.STRING,
-    //     field: 'create_at',
-    //     defaultValue: Sequelize.NOW
-    // }
+    createdAt: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        field: 'create_at',
+        defaultValue: Sequelize.NOW
+    }
 };
 
 class Producto extends Model {
