@@ -19,12 +19,24 @@ router.get('/',  async (req, res, next) => {
   }
 });
 
+router.get('/:id',
+validationHandler(getCustomerSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const customer = await service.findOne(id);
+      res.json(customer);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 router.post('/',
   validationHandler(createCustomerSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
-      console.log(body);
       res.status(201).json(await service.create(body));
     } catch (error) {
       next(error);

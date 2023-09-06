@@ -28,7 +28,8 @@ const options = {
 // app.use(cors(options));
 app.get('/api', (req, res) => {
 
-    res.send(' **************Esto es un api Realizada con NODE.JS *******************');
+    // res.send(' **************Esto es un api Realizada con NODE.JS *******************');
+    res.sendFile(__dirname + "/index.html");
 
 });
 

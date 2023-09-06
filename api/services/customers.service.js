@@ -6,11 +6,14 @@ class CustomerService {
   constructor() {}
 
   async find() {
-    const rta = await models.Customer.findAll();
+    const rta = await models.Customer.findAll({
+      include: ['user']
+    });
     return rta;
   }
 
   async findOne(id) {
+    console.log( "este es el id :"+ id);
     const user = await models.Customer.findByPk(id);
     if (!user) {
       throw boom.notFound('customer not found');
@@ -19,7 +22,9 @@ class CustomerService {
   }
 
   async create(data) {
-    const newCustomer = await models.Customer.create(data);
+    const newCustomer = await models.Customer.create(data, {
+      include: ['user']
+    });
     return newCustomer;
   }
 
